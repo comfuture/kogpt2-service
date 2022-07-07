@@ -1,6 +1,6 @@
 {
   "name": "PyTorch",
-  "image": "sethjuarez/torchvision-cpu-slim",
+  // "image": "sethjuarez/torchvision-cpu-slim",
 // Set *default* container specific settings.json values on container create.
   "settings": { 
     "workbench.startupEditor": "none",

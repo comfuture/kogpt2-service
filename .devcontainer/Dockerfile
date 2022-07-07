@@ -1,10 +1,20 @@
-FROM python:3.10-slim
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.155.1/containers/python-3/.devcontainer/base.Dockerfile
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    pip install --no-cache-dir \
-                    pylint \
-                    matplotlib \
-                    ipykernel \
-                    jupyter \
-                    torch==1.6.0+cpu \
-    -f https://download.pytorch.org/whl/torch_stable.html
+# [Choice] Python version: 3, 3.9, 3.8, 3.7, 3.6
+ARG VARIANT="3.9"
+FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+
+# [Option] Install Node.js
+ARG INSTALL_NODE="true"
+ARG NODE_VERSION="lts/*"
+RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+
+# RUN su vscode -c "pip install -r requirements.txt"
+# RUN su vscode -c "npm ci"
+
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+#     && apt-get -y install --no-install-recommends <your-package-list-here>
+
+# [Optional] Uncomment this line to install global node packages.
+# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
