@@ -9,3 +9,7 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 
+dependencies = [
+  "torch == 1.12.0",
+  "ratsnlp >= 1.0.52",
+]
