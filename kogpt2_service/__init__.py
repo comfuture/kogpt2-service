@@ -4,47 +4,13 @@ __version__ = "0.0.1"
 import os
 import torch
 from ratsnlp.nlpbook.generation import GenerationDeployArguments
-from transformers import GPT2Config, GPT2LMHeadModel, PreTrainedTokenizerFast
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
+tokenizer = AutoTokenizer.from_pretrained("skt/kogpt2-base-v2")
 
-downstream_dir = os.path.realpath(os.path.join(os.curdir, "nl_checkpoint"))
-downstream_model_checkpoint_fpath = os.path.join(downstream_dir, 'checkpoint')
-
-try:
-    os.mkdir(downstream_dir)
-except FileExistsError:
-    pass
-
-# args = GenerationDeployArguments(
-#     pretrained_model_name="skt/kogpt2-base-v2",
-#     # downstream_model_dir=downstream_dir,
-#     downstream_model_checkpoint_fpath=downstream_model_checkpoint_fpath,
-#     downstream_model_dir=None,
-# )
-
-
-pretrained_model_config = GPT2Config.from_pretrained(
-    "skt/kogpt2-base-v2",
-    # args.pretrained_model_name,
-)
-
-model = GPT2LMHeadModel(pretrained_model_config)
-
-# fine_tuned_model_ckpt = torch.load(
-#     args.downstream_model_checkpoint_fpath,
-#     map_location=torch.device("cpu"),
-# )
-
-# model.load_state_dict({k.replace("model.", ""): v for k, v in fine_tuned_model_ckpt['state_dict'].items()})
-
+model = AutoModelForCausalLM.from_pretrained("skt/kogpt2-base-v2")
 model.eval()
 
-
-tokenizer = PreTrainedTokenizerFast.from_pretrained(
-    "skt/kogpt2-base-v2",
-    # args.pretrained_model_name,
-    eos_token="</s>",
-)
 
 def inference_fn(
         prompt,
